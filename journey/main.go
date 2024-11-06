@@ -83,11 +83,10 @@ func singleRoundTest() {
 
 func singlePathTest(from, to *j.Location) {
 	_jm, _ := j.InitialiseJourneyMap(from, to)
-
-	var _conn *j.Connection = _jm.MakeAConnection(nil, from, nil, nil, j.BEING_PROCESSED)
-	// _jm.ConnectionTree = append(_jm.ConnectionTree, &_conn)
+	var _conn j.Connection = j.Connection{NestedLevel: 0, FromNode: from}
+	_jm.ConnectionTree = append(_jm.ConnectionTree, &_conn)
 	start := time.Now()
-	callFindRoute(_jm, 0, _conn)
+	callFindRoute(_jm, 0, &_conn)
 	elapsed := time.Since(start)
 	fmt.Printf("search took %s\n", elapsed)
 	_jm.ShowResultingLegs()
@@ -114,16 +113,16 @@ func testNestedConnections() {
 }
 
 func testFindPaths(from, to *j.Location, wg *sync.WaitGroup, count int) {
-	// _jm, _ := j.CreateJourneyMap(from, to)
-	// var _conn j.Connection = j.Connection{NestedLevel: 0, FromNode: from}
-	// _jm.ConnectionTree = append(_jm.ConnectionTree, &_conn)
-	// start := time.Now()
-	// callFindRoute(_jm, 0, &_conn)
-	// elapsed := time.Since(start)
-	// fmt.Printf("search took %s\n", elapsed)
-	// _jm.ShowResultingLegs()
-	// _jm = nil
-	// wg.Done()
+	_jm, _ := j.InitialiseJourneyMap(from, to)
+	var _conn j.Connection = j.Connection{NestedLevel: 0, FromNode: from}
+	_jm.ConnectionTree = append(_jm.ConnectionTree, &_conn)
+	start := time.Now()
+	callFindRoute(_jm, 0, &_conn)
+	elapsed := time.Since(start)
+	fmt.Printf("search took %s\n", elapsed)
+	_jm.ShowResultingLegs()
+	_jm = nil
+	wg.Done()
 
 }
 
