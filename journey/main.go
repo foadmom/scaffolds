@@ -84,7 +84,7 @@ func singleRoundTest() {
 func singlePathTest(from, to *j.Location) {
 	_jm, _ := j.InitialiseJourneyMap(from, to)
 
-	var _conn *j.Connection = _jm.MakeAConnection(nil, from, nil, nil, j.BEING_PROCESSED)
+	var _conn *j.Connection = _jm.MakeAConnection(nil, from, nil, j.BEING_PROCESSED)
 	// _jm.ConnectionTree = append(_jm.ConnectionTree, &_conn)
 	start := time.Now()
 	callFindRoute(_jm, 0, _conn)
@@ -128,5 +128,5 @@ func testFindPaths(from, to *j.Location, wg *sync.WaitGroup, count int) {
 }
 
 func callFindRoute(jm *j.JourneyMap, level int, connection *j.Connection) {
-	jm.FindConnectingNodes_v5(level, connection)
+	jm.FindConnectingNodes_v5_1(level, connection)
 }
